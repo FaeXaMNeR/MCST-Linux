@@ -5,19 +5,14 @@
 
 #define SIZE 1000
 
-// Реализация через signal()
+// Реализация через sigaction()
 
 int i = 0;
 int j = 0;
 
 void handler(int sig) {
-    printf("\nТекущая итератор строки: %d, текущий итератор столбца: %d\n", i, j);
-    
-    struct sigaction act;
-    act.sa_handler = SIG_DFL;
-    sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
-    sigaction(SIGINT, &act, NULL);
+    printf("\nТекущий итератор строки: %d, текущий итератор столбца: %d\n", i, j);
+    signal(SIGINT, SIG_DFL);
 }
 
 int main() {
@@ -40,11 +35,7 @@ int main() {
     }
 
     // изменение реакции SIGINT
-    struct sigaction act;
-    act.sa_handler = handler;
-    sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
-    sigaction(SIGINT, &act, NULL);
+    signal(SIGINT, handler);
 
     for (i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
@@ -67,6 +58,3 @@ int main() {
 
     return 0;
 }
-
-
-

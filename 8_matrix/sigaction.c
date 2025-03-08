@@ -11,8 +11,13 @@ int i = 0;
 int j = 0;
 
 void handler(int sig) {
-    printf("\nТекущая итератор строки: %d, текущий итератор столбца: %d\n", i, j);
-    signal(SIGINT, SIG_DFL);
+    printf("\nТекущий итератор строки: %d, текущий итератор столбца: %d\n", i, j);
+    
+    struct sigaction act;
+    act.sa_handler = SIG_DFL;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    sigaction(SIGINT, &act, NULL);
 }
 
 int main() {
@@ -35,7 +40,11 @@ int main() {
     }
 
     // изменение реакции SIGINT
-    signal(SIGINT, handler);
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    sigaction(SIGINT, &act, NULL);
 
     for (i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
@@ -58,3 +67,6 @@ int main() {
 
     return 0;
 }
+
+
+
