@@ -5,7 +5,7 @@
 
 #define SIZE 1000
 
-// Реализация через sigaction()
+// Реализация через signal()
 
 int i = 0;
 int j = 0;
