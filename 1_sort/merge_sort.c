@@ -57,7 +57,7 @@ void *merge_sort(void *arg) {
     int right = data->right;
 
     if (left < right) {
-        int mid = left + (right - left) / 2;
+        int mid = (right + left) / 2;
 
         // новые потоки будут создаваться для сортировки правой и левой части
         pthread_t thread1, thread2;
